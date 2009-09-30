@@ -2478,7 +2478,7 @@ module RbReadline
       @rl_outstream ||= $stdout
 
       # Bind _rl_in_stream and _rl_out_stream immediately.  These values
-      #   may change, but they may also be used before readline_internal ()
+      #   may change, but hey may also be used before readline_internal ()
       #   is called.
       @_rl_in_stream = @rl_instream
       @_rl_out_stream = @rl_outstream
@@ -4276,6 +4276,8 @@ module RbReadline
       # Cygwin will look like Windows, but we want to treat it like a Posix OS:
       raise LoadError, "Cygwin is a Posix OS." if RUBY_PLATFORM =~ /\bcygwin\b/i
       raise LoadError, "Not Windows" if RUBY_PLATFORM !~ /mswin|mingw/
+      puts $rb_readline_use_file_io_on_windows
+      raise LoadError, "Using file I/O for windows" if $rb_readline_use_file_io_on_windows
 
       if RUBY_VERSION < '1.9.1'
          require 'Win32API'
@@ -4348,7 +4350,7 @@ module RbReadline
         @encoding = "N"
       end
 
-      def rl_getc(stream)
+      def rl_getc(stream) # windows only here
          c = @getch.Call
          alt = (@GetKeyState.call(VK_LMENU) & 0x80) != 0
          if c==0 || c==0xE0
@@ -4380,7 +4382,7 @@ module RbReadline
          @encoding = "N"
       end
 
-      def rl_getc(stream)
+      def rl_getc(stream) # linux
          begin
             c = stream.read(1)
          rescue Errno::EINTR
@@ -4430,7 +4432,7 @@ module RbReadline
 
          else
 
-            if (c=rl_get_char()).nil?
+            if (c=rl_get_char()).nil? # do we have one cached?
                c = send(@rl_getc_function,@rl_instream)
             end
          end
@@ -6117,7 +6119,7 @@ module RbReadline
                next
             end
             # Call the application-specific function to tell us whether
-            #   this word break character is quoted and should be skipped.
+           #   this word break character is quoted and should be skipped.
             if (@rl_char_is_quoted_p && found_quote!=0 &&
                send(@rl_char_is_quoted_p,@rl_line_buffer, @rl_point))
                next
