@@ -4276,7 +4276,6 @@ module RbReadline
       # Cygwin will look like Windows, but we want to treat it like a Posix OS:
       raise LoadError, "Cygwin is a Posix OS." if RUBY_PLATFORM =~ /\bcygwin\b/i
       raise LoadError, "Not Windows" if RUBY_PLATFORM !~ /mswin|mingw/
-      puts $rb_readline_use_file_io_on_windows
       raise LoadError, "Using file I/O for windows" if $rb_readline_use_file_io_on_windows
 
       if RUBY_VERSION < '1.9.1'
