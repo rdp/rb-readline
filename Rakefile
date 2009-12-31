@@ -22,9 +22,8 @@ end
 
 
 require 'jeweler'
-
 Jeweler::Tasks.new do |s|
-    s.version =  RbReadline.rl_library_version
+    s.version = RbReadline::RB_READLINE_VERSION
     s.name = "rdp-rb-readline"
     s.summary = "Pure Ruby readline"
     s.email = "rogerdpack@gmail.com"
