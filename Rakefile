@@ -1,6 +1,5 @@
 require 'rake/packagetask'
 require 'rake/testtask'
-require 'lib/rbreadline'
 
 $:.unshift File.join(File.dirname(__FILE__), 'lib')
 require 'readline'
@@ -20,10 +19,9 @@ Rake::TestTask.new do |t|
   t.verbose = true
 end
 
-
 require 'jeweler'
 Jeweler::Tasks.new do |s|
-    s.version = RbReadline::RB_READLINE_VERSION
+    s.version = version
     s.name = "rdp-rb-readline"
     s.summary = "Pure Ruby readline"
     s.email = "rogerdpack@gmail.com"
